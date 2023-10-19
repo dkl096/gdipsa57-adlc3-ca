@@ -15,4 +15,6 @@ jobs:
           id: slack_notification
           uses: rtCamp/action-slack-notify@v2
           env:
-            SLACK_WEBHOOK: @{{secrets.SLACK_WEBHOOK}}
+            SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
+            SLACK_TITLE: "Papipopeto Pipipeti"
+            SLACK_MESSAGE: "Failed trivy scan. \nPlease refer to attached report."
