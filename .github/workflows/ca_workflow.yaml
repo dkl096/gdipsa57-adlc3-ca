@@ -11,6 +11,16 @@ jobs:
           id: checkout_source
           uses: actions/checkout@v4
 
+        - name: Trivy Scan
+          id: scan_repo
+          uses: aquasecurity/trivy-action@master
+          with:
+            scan-type: "fs"
+            ignore-unfixed: true
+            format: "table"
+            output: "trvy-results.txt"
+            severity: "HIGH"
+
         - name: Slack Notification
           id: slack_notification
           uses: rtCamp/action-slack-notify@v2
