@@ -1,0 +1,18 @@
+name: ca workflow
+on:
+- push
+
+jobs:
+    scan_repository:
+        runs-on: ubuntu-lates
+
+        steps:
+        - name: checkout source
+          id: checkout_source
+          uses: actions/checkout@v4
+
+        - name: Slack Notification
+          id: slack_notification
+          uses: rtCamp/action-slack-notify@v2
+          env:
+            SLACK_WEBHOOK: @{{secrets.SLACK_WEBHOOK}}
