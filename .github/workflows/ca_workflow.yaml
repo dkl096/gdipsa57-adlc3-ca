@@ -25,7 +25,17 @@ jobs:
           id: slack_notification
           uses: rtCamp/action-slack-notify@v2
           env:
-            SLACK_TITLE: Papipopeto Pipipeti
-            SLACK_USERNAME: kkuma
+            SLACK_TITLE: Scan Failed
             SLACK_MESSAGE: "Failed trivy scan. \nPlease refer to attached report."
             SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
+
+        - name: Trivy File Scan Upload
+          id: file_upload
+          uses: MeilCli/slack-upload-file@v3
+          with:
+            slack_token: ${{secrets.SLACK_TOKEN}}
+            channel_id: ${{secrets.SLACK_CHANNELID}}
+            file_path: "upload_test.txt"
+            initial_comment: "post by slack-upload-file"
+
+
