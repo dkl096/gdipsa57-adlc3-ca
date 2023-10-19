@@ -19,7 +19,7 @@ jobs:
             ignore-unfixed: true
             format: "table"
             output: "trvy-results.txt"
-            severity: "HIGH"
+            severity: "HIGH, CRITICAL"
 
         - name: Slack Notification
           id: slack_notification
