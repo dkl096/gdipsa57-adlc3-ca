@@ -18,8 +18,13 @@ jobs:
             scan-type: "fs"
             ignore-unfixed: true
             format: "table"
-            output: "trvy-results.txt"
-            severity: "HIGH, CRITICAL"
+            output: "trivy-results.txt"
+            severity: "HIGH"
+            #exit-code: 1
+
+        - name: Directory
+          id: file_directory
+          run: echo "$(ls -l)"
 
         - name: Slack Notification
           id: slack_notification
@@ -35,7 +40,7 @@ jobs:
           with:
             slack_token: ${{secrets.SLACK_TOKEN}}
             channel_id: ${{secrets.SLACK_CHANNELID}}
-            file_path: "upload_test.txt"
+            file_path: "trivy-results.txt"
             initial_comment: "post by slack-upload-file"
 
 
