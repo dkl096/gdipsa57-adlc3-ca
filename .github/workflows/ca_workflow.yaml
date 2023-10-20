@@ -5,6 +5,7 @@ on:
 jobs:
     scan_repository:
         runs-on: ubuntu-latest
+        continue-on-error: true
 
         steps:
         - name: checkout source
@@ -20,11 +21,11 @@ jobs:
             format: "table"
             output: "trivy-results.txt"
             severity: "HIGH"
-            #exit-code: 1
+            exit-code: 1
 
-        - name: Directory
-          id: file_directory
-          run: echo "$(ls -l)"
+        # - name: Directory
+        #   id: file_directory
+        #   run: echo "$(ls -l)"
 
         - name: Slack Notification
           id: slack_notification
