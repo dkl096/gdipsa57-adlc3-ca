@@ -34,6 +34,7 @@ jobs:
           env:
             SLACK_TITLE: Scan Successful
             SLACK_MESSAGE: "Papipopeto Pipipeti"
+            SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
 
         - name: Slack Notification (Fail)
           id: slack_notif_fail
