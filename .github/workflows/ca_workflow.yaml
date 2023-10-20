@@ -30,7 +30,7 @@ jobs:
         - name: Slack Notification (Success)
           id: slack_notif_success
           uses: rtCamp/action-slack-notify@v2
-          if: success()
+          if: steps.scan_repo.outcome == success()
           env:
             SLACK_TITLE: Scan Successful
             SLACK_MESSAGE: "Papipopeto Pipipeti"
