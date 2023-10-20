@@ -30,6 +30,7 @@ jobs:
         - name: Slack Notification
           id: slack_notification
           uses: rtCamp/action-slack-notify@v2
+          if: always()
           env:
             SLACK_TITLE: Scan Failed
             SLACK_MESSAGE: "Failed trivy scan. \nPlease refer to attached report."
@@ -38,6 +39,7 @@ jobs:
         - name: Trivy File Scan Upload
           id: file_upload
           uses: MeilCli/slack-upload-file@v3
+          if: always()
           with:
             slack_token: ${{secrets.SLACK_TOKEN}}
             channel_id: ${{secrets.SLACK_CHANNELID}}
