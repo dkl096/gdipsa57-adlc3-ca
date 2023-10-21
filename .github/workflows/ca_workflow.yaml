@@ -2,6 +2,7 @@ name: ca workflow
 on:
 - push
 
+
 jobs:
     scan_repository:
         runs-on: ubuntu-latest
@@ -12,6 +13,7 @@ jobs:
           id: checkout_source
           uses: actions/checkout@v4
 
+        #repository scan
         - name: Trivy Scan
           id: scan_repo
           uses: aquasecurity/trivy-action@master
@@ -20,22 +22,47 @@ jobs:
             ignore-unfixed: true
             format: "table"
             output: "trivy-results.txt"
-            severity: "HIGH"
+            severity: "CRITICAL"
             exit-code: 1
 
         # - name: Directory
         #   id: file_directory
         #   run: echo "$(ls -l)"
 
+        # Docker build & push
+        - name: Set up QEM
+          if: success()
+          uses: docker/setup-qemu-action@v3
+
+        - name: Set up Docker Buildx
+          if: success()
+          uses: docker/setup-buildx-action@v3
+
+        - name: Login to Docker Hub
+          if: success()
+          uses: docker/login-action@v3
+          with:
+            username: ${{secrets.DOCKERHUB_USERNAME}}
+            password: ${{secrets.DOCKERHUB_TOKEN}}
+
+        - name: Build and push
+          if: success()
+          uses: docker/build-push-action@v5
+          with:
+            push: true
+            tags: ${{secrets.DOCKERHUB_USERNAME}}/go_fortune:latest
+
+        # slack notification if scan is successful
         - name: Slack Notification (Success)
           id: slack_notif_success
           uses: rtCamp/action-slack-notify@v2
           if: success()
           env:
             SLACK_TITLE: Scan Successful
-            SLACK_MESSAGE: "Papipopeto Pipipeti"
+            SLACK_MESSAGE: "No vulnerability"
             SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
 
+        # slack notification if scan has failed
         - name: Slack Notification (Fail)
           id: slack_notif_fail
           uses: rtCamp/action-slack-notify@v2
