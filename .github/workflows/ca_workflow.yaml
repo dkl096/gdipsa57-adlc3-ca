@@ -50,7 +50,7 @@ jobs:
           uses: docker/build-push-action@v5
           with:
             push: true
-            tags: ${{secrets.DOCKERHUB_USERNAME}}/go_fortune:latest
+            tags: ${{secrets.DOCKERHUB_USERNAME}}/go_fortune:${{github.sha}}
 
         # slack notification if scan is successful
         - name: Slack Notification (Success)
