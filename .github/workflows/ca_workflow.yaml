@@ -23,9 +23,10 @@ jobs:
             ignore-unfixed: true
             format: "table"
             output: "trivy-results.txt"
-            severity: "CRITICAL"
+            severity: "HIGH"
             exit-code: 1
 
+        #Check file directory    
         # - name: Directory
         #   id: file_directory
         #   run: echo "$(ls -l)"
@@ -62,7 +63,7 @@ jobs:
           if: success()
           env:
             SLACK_TITLE: Image build and signed
-            SLACK_MESSAGE: "*Name*: Dian \n*Metriculation:* abc123\n*Email:* abc@gmail.com\n*Git:* ${{github.repository}}\n *Image:* napipopeta" 
+            SLACK_MESSAGE: "*Name*: Dian \n*Metriculation:* abc123\n*Email:* abc@gmail.com\n*Git:* <${{github.repository}}>\n *Image:* <docker.com>" 
             SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
 
         # slack notification if scan has failed
