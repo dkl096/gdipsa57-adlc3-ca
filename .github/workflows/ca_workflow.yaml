@@ -9,6 +9,7 @@ jobs:
         continue-on-error: true
 
         steps:
+        #file checkout
         - name: checkout source
           id: checkout_source
           uses: actions/checkout@v4
@@ -29,7 +30,7 @@ jobs:
         #   id: file_directory
         #   run: echo "$(ls -l)"
 
-        # Docker build & push
+        # #Docker build & push
         # - name: Set up QEM
         #   if: success()
         #   uses: docker/setup-qemu-action@v3
@@ -46,10 +47,12 @@ jobs:
         #     password: ${{secrets.DOCKERHUB_TOKEN}}
 
         # - name: Build and push
+        #   id: docker_build_push
         #   if: success()
         #   uses: docker/build-push-action@v5
         #   with:
         #     push: true
+        #     outputs: "digest"
         #     tags: ${{secrets.DOCKERHUB_USERNAME}}/go_fortune:${{github.sha}}
 
         # slack notification if scan is successful
