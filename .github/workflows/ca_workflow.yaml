@@ -59,36 +59,41 @@ jobs:
 
         # cosign
         - name: Cosign-installer
+          id: cosign_install
+          if: success()
           uses: sigstore/cosign-installer@v3.1.2
 
         - name: cosign image sign
+          id: cosign_sign
+          if: success()
           run: |
-            cosign sign --key env://COSIGN_PRIVATEKEY "${{secrets.DOCKERHUB_USERNAME}}/go_fortune:${{github.sha}}"
+            cosign sign --yes --key env://COSIGN_PRIVATEKEY "${TAGS}"
           env:
+            TAGS: ${{secrets.DOCKERHUB_USERNAME}}/go_fortune:${{github.sha}}
             COSIGN_PRIVATEKEY: ${{secrets.COSIGN_PRIVATEKEY}}
             COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
 
-        # slack notification if scan is successful
-        - name: Slack Notification (Success)
-          id: slack_notif_success
-          uses: rtCamp/action-slack-notify@v2
-          if: success()
-          env:
-            SLACK_TITLE: Image build and signed
-            SLACK_MESSAGE: "*Name*: Dian \n*Metriculation:* abc123\n*Email:* abc@gmail.com\n*Git:* <${{github.repository}}>\n *Image:* <docker.com>" 
-            SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
+        # # slack notification if scan is successful
+        # - name: Slack Notification (Success)
+        #   id: slack_notif_success
+        #   uses: rtCamp/action-slack-notify@v2
+        #   if: success()
+        #   env:
+        #     SLACK_TITLE: Image build and signed
+        #     SLACK_MESSAGE: "*Name*: Dian \n*Metriculation:* abc123\n*Email:* abc@gmail.com\n*Git:* <${{github.repository}}>\n *Image:* <docker.com>" 
+        #     SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
 
-        # slack notification if scan has failed
-        - name: Slack Notification (Fail)
-          id: slack_notif_fail
-          uses: rtCamp/action-slack-notify@v2
-          if: failure()
-          env:
-            SLACK_TITLE: Scan Failed
-            SLACK_MESSAGE: "Failed trivy scan. \nPlease refer to attached report."
-            SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
+        # # slack notification if scan has failed
+        # - name: Slack Notification (Fail)
+        #   id: slack_notif_fail
+        #   uses: rtCamp/action-slack-notify@v2
+        #   if: failure()
+        #   env:
+        #     SLACK_TITLE: Scan Failed
+        #     SLACK_MESSAGE: "Failed trivy scan. \nPlease refer to attached report."
+        #     SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
 
-        - name: Trivy File Scan Upload
+        # - name: Trivy File Scan Upload
           id: file_upload
           uses: MeilCli/slack-upload-file@v3
           if: failure()
