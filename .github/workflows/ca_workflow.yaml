@@ -2,7 +2,7 @@ name: ca workflow
 on:
  push:
   tags:
-    - "v[0-9]+.[0.9]+"
+    - 'v\d+\.\d+'
 
 
 jobs:
