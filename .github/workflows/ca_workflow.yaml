@@ -7,18 +7,29 @@ on:
 
 
 jobs:
+    filter_message:
+      runs-on: ubuntu-latest
+      if: startsWith(github.event.head_commit.message, '#NORUN')
+
+      steps:
+        - name: stop workflow
+          id: stop_workflow
+          run: |
+            exit 1
+
+
     scan_repository:
         runs-on: ubuntu-latest
 
         steps:
         #filter message
-        - name: Filter Commit Message
-          id: filter_message
-          run: |
-           message="${{ github.event.head_commit.message }}"
-           if [[ $message == "#NORUN"* ]]; then
-              exit 1
-           fi
+        # - name: Filter Commit Message
+        #   id: filter_message
+        #   run: |
+        #     message="${{ github.event.head_commit.message }}"
+        #     if [[ $message == "#NORUN"* ]]; then
+        #        exit 1
+        #     fi
 
         #file checkout
         - name: checkout source
