@@ -55,7 +55,6 @@ jobs:
           uses: docker/build-push-action@v5
           with:
             push: true
-            outputs: "digest"
             tags: ${{secrets.DOCKERHUB_USERNAME}}/go_fortune:${{github.sha}}
 
         # cosign
