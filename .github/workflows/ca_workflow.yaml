@@ -67,9 +67,9 @@ jobs:
           id: cosign_sign
           if: success()
           run: |
-            cosign sign --yes --key env://COSIGN_PRIVATEKEY "${TAGS}"
+            cosign sign --yes --key env://COSIGN_PRIVATEKEY "${{secrets.DOCKERHUB_USERNAME}}/go_fortune:${{github.sha}}"
           env:
-            TAGS: ${{secrets.DOCKERHUB_USERNAME}}/go_fortune:${{github.sha}}
+            TAGS: 
             COSIGN_PRIVATEKEY: ${{secrets.COSIGN_PRIVATEKEY}}
             COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
 
