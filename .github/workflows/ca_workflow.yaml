@@ -19,7 +19,7 @@ jobs:
                exit 1
             fi
 
-        #file checkout
+        #checkout
         - name: checkout source
           id: checkout_source
           uses: actions/checkout@v4
