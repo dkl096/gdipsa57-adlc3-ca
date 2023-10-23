@@ -3,4 +3,3 @@ tmp.*
 *secret*
 *password*
 cosign.key
-cosign.pub
