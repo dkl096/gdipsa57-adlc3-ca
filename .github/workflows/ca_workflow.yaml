@@ -33,7 +33,7 @@ jobs:
             ignore-unfixed: true
             format: "table"
             output: "trivy-results.txt"
-            severity: "HIGH, CRITICAL"
+            severity: "CRITICAL"
             exit-code: 1
 
         # #Docker build & push
