@@ -11,6 +11,14 @@ jobs:
         continue-on-error: true
 
         steps:
+        #filter message
+        - name: Filter Commit Message
+          id: filter_message
+          run: |
+           if [[ ${{github.event.head_commit.message}} == "#NORUN"*]]; then
+              exit 1
+           fi
+
         #file checkout
         - name: checkout source
           id: checkout_source
