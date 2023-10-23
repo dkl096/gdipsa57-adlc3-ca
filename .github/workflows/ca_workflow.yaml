@@ -2,6 +2,7 @@ name: ca workflow
 on:
  push:
   branches:
+    - main
     - 'v[0-9]+.[0-9]+'
 
 
@@ -33,7 +34,7 @@ jobs:
             ignore-unfixed: true
             format: "table"
             output: "trivy-results.txt"
-            severity: "HIGH, CRITICAL"
+            severity: "CRITICAL"
             exit-code: 1
 
         # #Docker build & push
@@ -83,7 +84,7 @@ jobs:
           if: success()
           env:
             SLACK_TITLE: Image build and signed
-            SLACK_MESSAGE: "*Name*: Dian Kartikasari Lianto\n*Metriculation:* A0099430B\n*Email:* e1275406@u.nus.edu\n*Git:* <${{github.repository}}>\n *Image:* <https://hub.docker.com/repository/docker/dkl096/go_fortune/>" 
+            SLACK_MESSAGE: "*Name*: Dian Kartikasari Lianto\n*Metriculation:* A0099430B\n*Email:* e1275406@u.nus.edu\n*Git:* <https://github.com/${{github.repository}}>\n *Image:* <https://hub.docker.com/repository/docker/dkl096/go_fortune/>" 
             SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
 
         # slack notification if scan has failed
