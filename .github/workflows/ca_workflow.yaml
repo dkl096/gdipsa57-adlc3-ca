@@ -9,15 +9,14 @@ on:
 jobs:
     scan_repository:
         runs-on: ubuntu-latest
-        continue-on-error: true
 
         steps:
         #filter message
         - name: Filter Commit Message
           id: filter_message
           run: |
-           message=$(git log -1 --pretty=format:%s)
-           if [[$message == "#NORUN"*]]; then
+           message="${{ github.event.head_commit.message }}"
+           if [[ $message == "#NORUN"* ]]; then
               exit 1
            fi
 
